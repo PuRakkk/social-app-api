@@ -35,6 +35,9 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 LOCAL_APPS = [
+    "app.auth_user.apps.AuthUserConfig",
+    "app.base.apps.BaseConfig",
+    "app.core.apps.CoreConfig"
 ]
 
 THIRD_PARTY_APPS = [
@@ -193,4 +196,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# AUTH_USER_MODEL = "auth_user.User"
+AUTH_USER_MODEL = "auth_user.QuixShareUser"
