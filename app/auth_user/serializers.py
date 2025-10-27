@@ -1,9 +1,9 @@
 from rest_framework import serializers
 from drf_writable_nested import WritableNestedModelSerializer
 from app.auth_user.models import QuixShareUser, QuixShareUserProfile
+from rest_framework.validators import UniqueValidator
 
 class QuixShareProfileSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = QuixShareUserProfile
         fields = [
@@ -23,10 +23,18 @@ class QuixShareProfileSerializer(serializers.ModelSerializer):
 
         return super().to_internal_value(data)
     
+    
 
 class QuixShareUserSerializer(WritableNestedModelSerializer):
     quix_share_user_profile = QuixShareProfileSerializer()
-
+    email = serializers.EmailField(
+        validators=[
+            UniqueValidator(
+                queryset=QuixShareUser.objects.all(),
+                message="This email is already registered"
+            )
+        ]
+    )
     class Meta:
         model = QuixShareUser
         exclude = [

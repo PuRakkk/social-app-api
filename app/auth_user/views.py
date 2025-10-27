@@ -26,7 +26,8 @@ class CreateUserViewSet(CoreCreateViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         response = {
-            **serializer.data
+            **serializer.data,
+            "message": "Successfull Register"
         }
 
         return Response(response, status=status.HTTP_201_CREATED)

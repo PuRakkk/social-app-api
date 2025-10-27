@@ -53,7 +53,7 @@ class QuixShareUserProfile(AbstractModel):
     last_name = models.CharField(max_length=255, null=True, blank=True)
     full_name = models.CharField(max_length=255, null=True, blank=True)
     username = models.CharField(max_length=255, null=True, blank=True, unique=True)
-    status = models.CharField(max_length=55, choices=STATUS, default="active")
+    status = models.CharField(max_length=55, choices=STATUS, default="pending")
 
     class Meta:
         db_table = "quix_share_user_profile"
