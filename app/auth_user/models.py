@@ -5,12 +5,7 @@ from django.contrib.auth.models import (
     Permission,
     BaseUserManager
 )
-
-STATUS = (
-    ("approved", "Approved"),
-    ("inactive", "Inactive"),
-)
-
+from app.auth_user.constants import Account, Status, Gender
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password, **extra_fields):
@@ -32,6 +27,7 @@ class QuixShareUser(AbstractBaseUser, AbstractModel):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    otp = models.IntegerField(null=True, blank=True)
     attempts_time = models.DateTimeField(null=True, blank=True)
     objects = UserManager()
 
@@ -52,8 +48,11 @@ class QuixShareUserProfile(AbstractModel):
     first_name = models.CharField(max_length=255, null=True, blank=True)
     last_name = models.CharField(max_length=255, null=True, blank=True)
     full_name = models.CharField(max_length=255, null=True, blank=True)
+    gender = models.CharField(max_length=25, choices=Gender.choices, default=Gender.OTHER)
     username = models.CharField(max_length=255, null=True, blank=True, unique=True)
-    status = models.CharField(max_length=55, choices=STATUS, default="pending")
+    account_type = models.CharField(max_length=25, choices=Account.choices, default=Account.NORMAL)
+    date_of_birth = models.DateField(max_length=100, null=True, blank=True)
+    status = models.CharField(max_length=55, choices=Status.choices, default=Status.APPROVED)
 
     class Meta:
         db_table = "quix_share_user_profile"
